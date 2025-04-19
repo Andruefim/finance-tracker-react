@@ -16,7 +16,7 @@ export interface LoginData {
 }
 
 interface LoginFormProps {
-    onLoginSubmit: (formData: LoginData, setError: (error: string) => void) => void;
+    onLoginSubmit: (formData: LoginData, setError?: (error: string) => void) => void;
 }
 
 const LoginForm = ({ onLoginSubmit }: LoginFormProps) => {
