@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent, screen, renderHook} from '@testing-library/react';
+import {render, fireEvent, screen, renderHook, waitFor} from '@testing-library/react';
 import '@testing-library/dom';
 import useLoginRequest from './useLoginRequest';
 import { User } from '../../types';
@@ -11,6 +11,10 @@ const mockResponse: User = {
     token: 'token',
     userId: 'userId',
     emailConfirmed: true
+};
+
+const errorResponse = { 
+  message: "Error response" 
 };
 
 
@@ -33,16 +37,19 @@ test('makes login request and returns user', async () => {
 
 
 test('catches server error and calls error callback', async () => {
-    jest.spyOn(global, 'fetch').mockRejectedValue("Error on server");
+    jest.spyOn(global, 'fetch').mockRejectedValue(errorResponse);
     
-    const { result } = renderHook(() => useLoginRequest());
+    const onError = jest.fn();
 
-    let errorMessage;
+    const { result } = renderHook(() => useLoginRequest());
 
     await result.current.login(
       { email: 'email', password: 'password' },
-      (error: string) => { errorMessage = error}
+      onError
     );
 
-    expect(errorMessage).toEqual("Error on server");
+    await waitFor(() => {
+      expect(onError).toHaveBeenCalledWith(errorResponse);
+    })
+
 })

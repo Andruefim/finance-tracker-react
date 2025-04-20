@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, FormHelperText, styled, TextField} from '@mui/material';
+import { Button, FormHelperText, Link, styled, TextField, Typography} from '@mui/material';
 import { useFormik } from "formik"
 import AuthCard from '../../components/AuthCard';
 import useLoginRequest from './useLoginRequest';
+import { REGISTER } from '../../../../constants/routes';
 
 const StyledForm = styled('form')(({ theme }) => ({
     display: 'flex',
@@ -16,7 +17,7 @@ export interface LoginData {
 }
 
 interface LoginFormProps {
-    onLoginSubmit: (formData: LoginData, setError?: (error: string) => void) => void;
+    onLoginSubmit: (formData: LoginData, setError: (error: string) => void) => void;
 }
 
 const LoginForm = ({ onLoginSubmit }: LoginFormProps) => {
@@ -43,6 +44,7 @@ const LoginForm = ({ onLoginSubmit }: LoginFormProps) => {
                     value={values.email}
                     variant='outlined'
                     error={touched.email && Boolean(errors.email)}
+                    required
                 />
                 <TextField 
                     name='password'
@@ -52,7 +54,9 @@ const LoginForm = ({ onLoginSubmit }: LoginFormProps) => {
                     value={values.password}
                     variant='outlined'
                     error={touched.password && Boolean(errors.password)}
+                    required
                 />
+                <Typography>Dont have an account? <Link href={REGISTER}>Register</Link></Typography>
 
                 <Button color='primary' type='submit' variant='contained'>Login</Button>
                 <FormHelperText>{error}</FormHelperText>
