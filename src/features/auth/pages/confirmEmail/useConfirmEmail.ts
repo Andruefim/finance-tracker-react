@@ -6,6 +6,7 @@ import { DASHBOARD } from '../../../../constants/routes';
 import { AuthContext } from '../../../../context/AuthContext';
 import { postHeaders } from '../../../../services/http';
 
+
 import { ConfirmEmailData } from './ConfirmEmailForm';
 
 const useConfirmEmail = () => {
@@ -34,7 +35,8 @@ const useConfirmEmail = () => {
     }
 
     return {
-        handleConfirmEmail
+        handleConfirmEmail,
+        initEmailConfirmation
     }
 }
 

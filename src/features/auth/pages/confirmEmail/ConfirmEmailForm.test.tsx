@@ -14,7 +14,7 @@ export interface FormData {
 beforeAll(() => {})
 afterAll(() => {})
 
-test('submits form and passes formdata to login callback', async () => {
+test('submits form and passes formdata to confirm email callback', async () => {
     const onSubmit = jest.fn();
 
     render(<ConfirmEmailForm onSubmit={onSubmit}/>)
