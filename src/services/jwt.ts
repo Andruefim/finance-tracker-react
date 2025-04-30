@@ -3,7 +3,7 @@ export const getToken = () => {
 }
 
 export const saveToken = (token: string) => {
-    window.localStorage["jwtToken"] = token;
+    window.localStorage.setItem("jwtToken", token);
 }
 
 export const destroyToken = () => {

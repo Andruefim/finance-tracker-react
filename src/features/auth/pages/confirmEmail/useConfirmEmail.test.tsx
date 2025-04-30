@@ -37,7 +37,7 @@ test('sends confirmation email request onRender and writes response in sessionSt
         wrapper: ({ children }) => <BrowserRouter>{children}</BrowserRouter>
       });
 
-      await waitFor(() => {
+    await waitFor(() => {
         expect(req).toHaveBeenCalledTimes(1);
         expect(setItemMock).toHaveBeenCalledWith('confirmationSent', 'true');
     });

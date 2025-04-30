@@ -1,27 +1,27 @@
 import React, { useContext } from 'react';
-import { BACKEND_URL } from '../../../../api/apiUrls';
-import { postHeaders } from '../../../../services/http';
+import { useNavigate } from 'react-router';
+import { login } from '../../../../api/user';
+import { DASHBOARD } from '../../../../constants/routes';
+import { AuthContext } from '../../../../context/AuthContext';
+import { saveToken } from '../../../../services/jwt';
 
 import { LoginData } from './LoginForm';
 
 const useLoginRequest = () => {
+    const navigate = useNavigate();
+    const { setUser } = useContext(AuthContext);
 
-    const login = async (values: LoginData, setError: (error: string) => void) => {
-        try {
-            const response = await fetch(`${BACKEND_URL}/api/Authenticate/login`, {
-                method: 'POST',
-                headers: postHeaders,
-                body: JSON.stringify(values)
-            });
+    const handleLogin = async (values: LoginData, setError: (error: string) => void) => {
+        const user = await login(values, setError);
+        if (!user) return;
 
-            return await response.json(); 
-        } catch (e) {
-            setError(e as string)
-        }
+        saveToken(user.token);
+        setUser(user);
+        navigate(DASHBOARD);
     }
 
     return {
-        login
+        login: handleLogin
     }
 }
 

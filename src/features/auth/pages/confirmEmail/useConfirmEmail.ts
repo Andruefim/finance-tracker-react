@@ -1,10 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { BACKEND_URL } from '../../../../api/apiUrls';
 import { sendEmailConfirmation, confirmEmail } from '../../../../api/confirmEmail';
 import { DASHBOARD } from '../../../../constants/routes';
 import { AuthContext } from '../../../../context/AuthContext';
-import { postHeaders } from '../../../../services/http';
 
 
 import { ConfirmEmailData } from './ConfirmEmailForm';

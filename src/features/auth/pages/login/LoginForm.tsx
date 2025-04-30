@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button, FormHelperText, Link, styled, TextField, Typography} from '@mui/material';
 import { useFormik } from "formik"
 import AuthCard from '../../components/AuthCard';
-import useLoginRequest from './useLoginRequest';
 import { REGISTER } from '../../../../constants/routes';
 
 const StyledForm = styled('form')(({ theme }) => ({

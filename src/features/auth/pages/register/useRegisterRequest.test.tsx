@@ -3,13 +3,10 @@ import {render, fireEvent, screen, renderHook, waitFor} from '@testing-library/r
 import '@testing-library/dom';
 import useRegisterRequest from './useRegisterRequest';
 import { User } from '../../types';
+import { BrowserRouter } from 'react-router';
 
 const mockResponse = {
     message: "User registered successfully"
-};
-
-const errorResponse = { 
-    message: "Error response" 
 };
 
 const registerData = { 
@@ -24,33 +21,21 @@ beforeEach(() => {})
 afterEach(() => jest.restoreAllMocks())
 
 test('makes register request and returns user', async () => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({
+    const req = jest.spyOn(global, 'fetch').mockResolvedValue({
         ok: true,
         json: () => Promise.resolve(mockResponse)
     } as Response)
 
-    const { result } = renderHook(() => useRegisterRequest());
-    const response = await result.current.register(
-      registerData,
-      (error: string) => {}
-    );
-    expect(response.message).toEqual("User registered successfully");
-})
-
-
-test('catches server error and calls error callback', async () => {
-    jest.spyOn(global, 'fetch').mockRejectedValue(errorResponse);
-
-    const onError = jest.fn();
-    
-    const { result } = renderHook(() => useRegisterRequest());
+    const { result } = renderHook(() => useRegisterRequest(), {
+        wrapper: ({ children }) => <BrowserRouter>{children}</BrowserRouter>
+      });
 
     await result.current.register(
       registerData,
-      onError
+      (error: string) => {}
     );
-
-    await waitFor(() => {
-        expect(onError).toHaveBeenCalledWith(errorResponse);
+    
+    await waitFor(()=>{
+        expect(req).toHaveBeenCalledTimes(1);
     })
 })

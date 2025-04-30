@@ -22,7 +22,7 @@ export const http = {
                 method: 'GET',
                 headers: getAuthHeaders()
             });
-    
+     
             return await response.json(); 
         } catch (e) {
             setError
