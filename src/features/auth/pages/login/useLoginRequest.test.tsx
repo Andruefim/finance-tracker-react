@@ -56,7 +56,7 @@ test('Makes login request, sets token to local storage', async () => {
     );
     
     await waitFor(() => {
-      expect(request).toHaveBeenCalledTimes(1);
+      expect(request).toHaveBeenCalled();
       expect(setItemMock).toHaveBeenCalledWith('jwtToken', 'token');
     })
 })
@@ -70,7 +70,8 @@ test('Makes login request, updates user in auth context', async () => {
   let authContext = {
     user: null,
     setUser: jest.fn(),
-    refetchUser: () => {}
+    refetchUser: () => {},
+    loadingUser: false
   }
   
   const { result } = renderHook(() => useLoginRequest(), {

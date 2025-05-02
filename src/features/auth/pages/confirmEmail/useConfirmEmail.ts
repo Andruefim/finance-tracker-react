@@ -13,8 +13,11 @@ const useConfirmEmail = () => {
 
     useEffect(()=>{
         checkEmailConfirmed();
+    },[user]);
+
+    useEffect(()=>{
         initEmailConfirmation();
-    },[]);
+    },[])
 
     const checkEmailConfirmed = () => {
         user?.emailConfirmed && navigate(DASHBOARD);
@@ -22,9 +25,8 @@ const useConfirmEmail = () => {
 
     const initEmailConfirmation = async () => {
         if (sessionStorage.getItem('confirmationSent')) return;
-        
-        const confirmationSentResult = await sendEmailConfirmation();
-        confirmationSentResult?.confirmationSent && sessionStorage.setItem('confirmationSent', 'true')
+        sessionStorage.setItem('confirmationSent', 'true')
+        await sendEmailConfirmation();
     }
 
     const handleConfirmEmail = async (values: ConfirmEmailData, setError: (err: string) => void) => {
